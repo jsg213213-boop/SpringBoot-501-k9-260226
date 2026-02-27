@@ -12,5 +12,10 @@
 <!--/* th:text="달러{변수명}" */-->
 <h3>인라인 방식 h3 태그 내부에 </h3>
 <h3 th:text="${strList}"></h3>
+
+<h3>타임리프 변수 선언해서 사용하기. </h3>
+<div th:with="num1 = ${10}, num2 = ${20}">
+    <h4 th:text="${num1 + num2}"></h4>
+</div>
 </body>
 </html>
