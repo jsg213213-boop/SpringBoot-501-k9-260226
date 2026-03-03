@@ -30,4 +30,10 @@ public class Board extends BaseEntity {
     private  String writer; // 실제 데이터베이스의 테이블의 컬럼4
 
     // 눈에 보이지 않지만, BaseEntity를 이용해서, regDate, modDate 도 추가가 될 예정.
+
+    // 수정 메서드를 따로 만들기.
+    public void change(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

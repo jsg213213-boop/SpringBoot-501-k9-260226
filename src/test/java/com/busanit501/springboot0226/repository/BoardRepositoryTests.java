@@ -40,4 +40,13 @@ public class BoardRepositoryTests {
         log.info("board 확인 : " +board );
     }
 
+    @Test
+    public void testUpdate() {
+        Long bno = 100L;
+        Optional<Board> result = boardRepository.findById(bno);
+        Board board = result.orElseThrow();
+        // 수정 메서드를 호출해서, 변경 후, 저장 및 수정.
+        board.change("수정 테스트 제목", "수정 테스트 내용");
+        boardRepository.save(board);
+    }
 }
