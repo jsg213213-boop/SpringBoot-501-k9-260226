@@ -48,4 +48,9 @@ public class BoardServiceTests {
 
     }
 
+    @Test
+    public void testRemove() {
+        boardService.remove(102L);
+    }
+
 }
