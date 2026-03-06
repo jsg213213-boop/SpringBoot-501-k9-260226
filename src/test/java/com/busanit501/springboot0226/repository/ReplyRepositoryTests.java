@@ -30,8 +30,8 @@ public class ReplyRepositoryTests {
        // 샘플 더미로 작성할 댓글도 필요함.
         Reply reply = Reply.builder()
                 .board(board)
-                .replyText("샘플 댓글 ")
-                .replyer("샘플 댓글 작성자")
+                .replyText("샘플 댓글3 ")
+                .replyer("샘플 댓글 작성자3")
                 .build();
 
         replyRepository.save(reply);
