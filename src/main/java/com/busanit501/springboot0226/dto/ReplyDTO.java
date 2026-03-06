@@ -18,13 +18,13 @@ import java.time.LocalDateTime;
 public class ReplyDTO {
     private Long rno;// 댓글의 구분 번호,
 
-//    @NotNull
+    @NotNull
     private Long bno; // 부모의 게시글 번호,
 
-//    @NotEmpty
+    @NotEmpty
     private String replyText;
 
-//    @NotEmpty
+    @NotEmpty
     private String replyer;
 
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
