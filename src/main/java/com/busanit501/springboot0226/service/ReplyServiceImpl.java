@@ -3,6 +3,8 @@ package com.busanit501.springboot0226.service;
 import com.busanit501.springboot0226.domain.Board;
 import com.busanit501.springboot0226.domain.Reply;
 import com.busanit501.springboot0226.dto.BoardDTO;
+import com.busanit501.springboot0226.dto.PageRequestDTO;
+import com.busanit501.springboot0226.dto.PageResponseDTO;
 import com.busanit501.springboot0226.dto.ReplyDTO;
 import com.busanit501.springboot0226.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +51,10 @@ public class ReplyServiceImpl implements ReplyService{
     @Override
     public void remove(Long rno) {
         replyRepository.deleteById(rno);
+    }
+
+    @Override
+    public PageResponseDTO<ReplyDTO> getListOfBoard(Long bno, PageRequestDTO pageRequestDTO) {
+        return null;
     }
 }
