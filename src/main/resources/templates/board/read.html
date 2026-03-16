@@ -229,7 +229,15 @@
         }
 
         // 다음 페이지 번호를 , 다음시간에
-
+        if(data.next) {
+            pageStr += `
+            <li class="page-item">
+                <a class="page-link" data-page="${data.end + 1}">
+                    PREV
+                </a>
+            </li>
+            `
+        }
 
         // innerHTML , 요소 주입하기.
         replyPaging.innerHTML = pageStr
