@@ -77,3 +77,9 @@ async function modifyReply(replyObj) {
     return response.data
 }
 
+// 댓글 삭제 함수
+async function removeReply(rno) {
+    const response = await axios.delete(`/replies/${rno}`)
+    return response.data
+}
+

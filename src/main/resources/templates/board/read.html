@@ -423,6 +423,25 @@
         modifyModal.hide()
     },false)
 
+    // 삭제 버튼 클릭시 이벤트 처리
+    removeBtn.addEventListener("click", function (e) {
+        // 모달창 헤더에 있는 댓글의 rno 번호를 가져와서, 삭제함수에 인자값으로 대입하기.
+        removeReply(replyHeader.innerHTML)
+            .then(result => {
+                alert(result.rno + ' 댓글이 삭제되었습니다.')
+                replyText.value = ''
+                modifyModal.hide()
+
+                // 삭제 후, 첫페이지 , 마지막 페이지로 갈지 정하면 됩니다.
+                // 안전하게, 삭제 후, 1페이지로 이동하기.
+                page = 1
+                printReplies(page,size)
+            })
+            .catch(e => {
+                console.log("댓글 삭제 실패")
+            })
+    },false)
+
 </script>
 </body>
 </html>
