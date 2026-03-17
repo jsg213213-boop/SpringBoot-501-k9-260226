@@ -44,7 +44,7 @@ public class UpDownController {
                  // 업로드 경로 : c:\\upload\\springTest
                  // 랜덤하게 생성된 uuid 를 덧붙여서, 원본 파일명과 같이 사용함.
                  Path savePath = Paths.get(uploadPath, uuid+"_"+originName);
-
+                 log.info(" UpDownController 이미지 첨부 경로 확인(uuid이용) savePath : " + savePath.toString()  );
                  // 실제 경로에, 이미지 파일 저장.
                  try {
                      file.transferTo(savePath);
