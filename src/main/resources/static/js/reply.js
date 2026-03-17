@@ -39,7 +39,7 @@ async function getList({bno,page,size,goLast}) {
 //     )
 // }
 
-// 수정,
+// 댓글 목록 그리기 함수 수정,
 async function getList({bno, page, size, goLast}){
     // 서버로부터 응답 받은 , 댓글의 목록입니다. (bno 부모 게시글에 따른 댓글 목록)
     const result = await axios.get(`/replies/list/${bno}`, {params: {page,size}})
@@ -62,6 +62,18 @@ async function getList({bno, page, size, goLast}){
 async function addReply(replyObj){
     // 오타수정
     const response = await axios.post(`/replies/`, replyObj)
+    return response.data
+}
+
+// 댓글 조회 함수
+async function getReply(rno){
+    const response = await axios.get(`/replies/${rno}`)
+    return response.data
+}
+
+// 댓글 수정 함수
+async function modifyReply(replyObj) {
+    const response = await axios.put(`/replies/${replyObj.rno}`, replyObj)
     return response.data
 }
 
