@@ -296,6 +296,30 @@
                 alert("예외 발생함.")
             })
     },false)
+
+
+    //댓글의 페이지네이션 번호를 클릭시, 해당 댓글 목록으로 이동하기.
+    let page = 1
+    let size = 10
+    // 댓글의 페이지네이션 ul 태그 하위의 li 태그 하위에 a 태그의 이벤트 처리 작업 진행.
+    replyPaging.addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+        // 클릭 요소의 타겟을 지정, 우리는 a 태그를 선택하는게 목적.
+        const target = e.target
+        if(!target || target.tagName != 'A' ){
+            // 클릭한 요소가 a  태그가 아니면, 이벤트 동작을 안하겠다.
+            return
+        }
+
+        // a 태그를 선택 했을 경우,
+        const pageNum = target.getAttribute("data-page")
+        // 기존 page 1, 클릭한  page 번호로 교체.
+        page = pageNum
+        // 해당 page 번호로 댓글 목록을 출력.
+        printReplies(page,size)
+    })
+
 </script>
 </body>
 </html>
