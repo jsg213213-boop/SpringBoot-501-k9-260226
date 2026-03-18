@@ -44,7 +44,9 @@ public class Board extends BaseEntity {
     //추가작업
     // 연관관계 설정 2번,
     // 게시글 1 <----> N 첨부 이미지, 양쪽에서 연관 관계 설정 모두 했음. 양방향.
-    @OneToMany
+//    @OneToMany
+    // BoardImage 의 board 변수를 의미 , 해석 : 나는 연관관계 주인이 아니예요. BoardImage가 연관관계의 주인입니다.
+    @OneToMany(mappedBy = "board")
     @Builder.Default
     private Set<BoardImage> imageSet = new HashSet<>();
 }
