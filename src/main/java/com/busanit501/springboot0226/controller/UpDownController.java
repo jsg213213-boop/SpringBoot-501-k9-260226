@@ -19,9 +19,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @Log4j2
@@ -135,10 +133,51 @@ public class UpDownController {
             // 헤더의 이 파일의 종류에대해서 첨부,
             headers.add("Content-Type", Files.probeContentType(resource.getFile().toPath()));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().headers(headers).body(resource);
-}
+    }
+
+    // 첨부 파일 삭제
+    @Tag(name = "이미지 파일 삭제 테스트",
+            description = "DELETE 방식으로 이미지 삭제 확인하기. ")
+    @DeleteMapping(value = "/remove/{fileName}")
+//Resource 시, 패키지명 : import org.springframework.core.io.Resource;
+    public Map<String, Boolean> removeFile(@PathVariable String fileName) {
+
+        // 예시
+        // fileName : s_5b418a60-407e-406e-991e-db88d35ea426_크롬기준-로컬스토리지 저장소 확인 방법.PNG
+        // 넘겨 받은 파일이름을 이용해서, 실제로 데이터에 접근해서, , http 데이터에 body 내용을 담아서 전달하기.
+
+        // 실제 이미지 파일이 위치해 있는 폴더 하위의 파일을 정확히 가리킴.
+        Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
+
+        String resourceName = resource.getFilename();
+        log.info(" UpDownController resourceName : " + resourceName);
+
+        Map<String, Boolean> resultMap = new HashMap<>();
+        boolean removed = false;
+
+        try {
+            // 첨부 파일이 , 이미지이면, 앞의 경로가 image/png 등으로 타입이 지정되어 있음.
+            String contentType = Files.probeContentType(resource.getFile().toPath());
+            // 실제 첨부 이미지를 삭제 후, 성공시, true  반환.
+            removed = resource.getFile().delete(); // 원본 이미지 삭제
+
+            // 이미지이면, 썸네일 이미지가 있어서 같이 삭제하기.
+            if (contentType.startsWith("image")) {
+                // 썸네일 파일 이미지의 객체를 생성.
+                File thumnailFile = new File(uploadPath + File.separator + "s_" + fileName);
+                // 썸네일 첨부 이미지 삭제
+                thumnailFile.delete();
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
+        resultMap.put("result", removed);
+        return resultMap;
+    }
 
 }
