@@ -47,10 +47,13 @@ public class Board extends BaseEntity {
 //    @OneToMany
     // BoardImage 의 board 변수를 의미 , 해석 : 나는 연관관계 주인이 아니예요. BoardImage가 연관관계의 주인입니다.
     @OneToMany(mappedBy = "board",
-            cascade = {CascadeType.ALL}, // 영속정 정의, all, 추가, 수정, 분리, 삭제, 하위에도 영향을 주겠다.
-            fetch = FetchType.LAZY // 현재 테이블 Board 테이블을 조회를 하는데, imageSet BoardImage 필요시, 조회할 때만
-            // 테이블 접근해서 조회하겠다. -> 결론, 미리 조회를 안하겠다.
+            cascade = CascadeType.ALL, // 영속정 정의, all, 추가, 수정, 분리, 삭제, 하위에도 영향을 주겠다.
+            fetch = FetchType.LAZY, // 현재 테이블 Board 테이블을 조회를 하는데, imageSet BoardImage 필요시, 조회할 때만
+            orphanRemoval = true
     )
+    // 테이블 접근해서 조회하겠다. -> 결론, 미리 조회를 안하겠다.
+    //추가
+    // 고악 객체 제거 속성 이용.
     @Builder.Default
     private Set<BoardImage> imageSet = new HashSet<>();
 
@@ -73,10 +76,10 @@ public class Board extends BaseEntity {
 
     // 이미지 삭제하는 메서드
     public void clearImages() {
-        imageSet.forEach(boardImage -> {
+        imageSet.forEach(boardImage ->
             // 부모 게시글을 null 변환 시키면, 고아 객체가 되어서, 자동으로 삭제되는 효과를 줄 예정.
             // 참고로, 추가 옵션 설정이 필요함.
-            boardImage.changeBoard(null);
-        });
+            boardImage.changeBoard(null));
+            this.imageSet.clear();
     }
 }

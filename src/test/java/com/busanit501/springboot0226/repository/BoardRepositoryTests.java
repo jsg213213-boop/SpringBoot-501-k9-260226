@@ -182,8 +182,8 @@ public class BoardRepositoryTests {
         board.clearImages();
 
         // 새로운 첨부 파일들 추가
-        for(int i = 0; i < 2 ; i++) {
-            board.addImage(UUID.randomUUID().toString(), "수정_file_" + i + ".png");
+        for(int i = 0; i < 3 ; i++) {
+            board.addImage(UUID.randomUUID().toString(), "수정333_file_" + i + ".png");
         }
 
         // 테스트 실행을 하면, 고아 객체 형태로 남아 있는 거 먼저 확인. 후, 고아 객체 제거하는 설정하기.
