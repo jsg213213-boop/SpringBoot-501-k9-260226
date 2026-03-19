@@ -3,6 +3,7 @@ package com.busanit501.springboot0226.repository;
 import com.busanit501.springboot0226.domain.Board;
 
 import com.busanit501.springboot0226.domain.BoardImage;
+import com.busanit501.springboot0226.domain.Reply;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,5 +208,42 @@ public class BoardRepositoryTests {
         boardRepository.deleteById(bno);
     }
 
+    // 약 100 개정도의 게시글과, 댓글, 첨부 이미지 까지만, 더미데이터 추가 해보기.
+    @Transactional
+    @Commit
+    @Test
+    public void testInsertAll() {
+        for (int i = 1; i <= 100; i++) {
+            Board board = Board.builder()
+                    .title("샘플 데이터 " + i)
+                    .content("샘플 제목 " + i)
+                    .writer("이상용" + i)
+                    .build();
+
+            for (int j = 0; j < 3; j++) {
+                if (i % 5 == 0) {
+                    // 5번째 씩 , 첨부 이미지 추가 안하기.
+                    continue;
+                }
+                // 첨부 이미지 3장씩 더미데이터
+                String uuid = UUID.randomUUID().toString();
+                String fileName = "샘플 이미지";
+                board.addImage(uuid, fileName + j + ".png");
+
+
+            }
+            // 게시글 작성 후 ,
+            boardRepository.save(board);
+            // 댓글 달기.
+            for (int j = 0; j < 3; j++) {
+                Reply reply = Reply.builder()
+                        .board(board)
+                        .replyText("샘플 댓글" + j)
+                        .replyer("이상용")
+                        .build();
+                replyRepository.save(reply);
+            }
+        }
+    }
 
 }
