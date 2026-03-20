@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.UUID;
 
 @SpringBootTest
 @Log4j2
@@ -69,6 +71,28 @@ public class BoardServiceTests {
         PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
         log.info("responseDTO 확인 : " + responseDTO);
 
+    }
+
+    // 게시글 + 첨부 이미지 , 테스트
+    @Test
+    public void testRegisterBoardWithImage() {
+        // 더미 게시글
+        BoardDTO boardDTO = BoardDTO.builder()
+                .title("첨부 이미지 추가 더미 게시글")
+                .content("첨부 이미지 추가 더미 게시글 내용")
+                .writer("이상용첨부이미지작업중")
+                .build();
+
+//         더미 파일 이름들
+        boardDTO.setFileNames(
+                Arrays.asList(
+                        UUID.randomUUID()+"_aa.png",
+                        UUID.randomUUID()+"_bb.png",
+                        UUID.randomUUID()+"_cc.png"
+                )
+        );
+        Long bno = boardService.register(boardDTO);
+        log.info("bno: " + bno);
     }
 
 }

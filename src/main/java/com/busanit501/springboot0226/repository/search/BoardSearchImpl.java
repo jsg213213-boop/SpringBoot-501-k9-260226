@@ -187,6 +187,12 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         JPQLQuery<Board> boardJPQLQuery = from(board);// select * from board
         // 조인 설정 , 게시글에서 댓글에 포함된 게시글 번호와 , 게시글 번호 일치
         boardJPQLQuery.leftJoin(reply).on(reply.board.bno.eq(board.bno));
+        // bno  title  content writer , rno  bno  replyText replyer
+        // 121   test   test    lsy      1    121    댓글    댓글작성자
+        // 121   test   test    lsy      2    121    댓글2    댓글작성자2
+
+        // 120   test3   test3    lsy3   3    120    댓글33    댓글작성자33
+        // 120   test3   test3    lsy3   4    120    댓글44    댓글작성자44
 
         //기존 , 검색 조건 추가. 위의 내용 재사용.
         if (types != null && types.length > 0 && keyword != null) {
@@ -212,32 +218,48 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         boardJPQLQuery.where(board.bno.gt(0L));
 
         boardJPQLQuery.groupBy(board); // 그룹 묶기
-        this.getQuerydsl().applyPagination(pageable, boardJPQLQuery); //페이징
+        // bno 125 , 게시글, 댓글 1  첨부 이미지 3개
+        // bno 125 , 게시글, 댓글 2,  첨부 이미지 3개
+        // bno 125 , 게시글, 댓글 3,  첨부 이미지 3개
+        // bno 124 , 게시글, 댓글 1,  첨부 이미지 3개
+        // bno 124 , 게시글, 댓글 2,  첨부 이미지 3개
+        this.getQuerydsl().applyPagination(pageable, boardJPQLQuery); //페이징 당 10개 작업.
         // 기본 세팅.
 
         // 3단계, 튜플 이용해서, 데이터 형변환.
-        JPQLQuery<Tuple> tupleJPQLQuery = boardJPQLQuery.select(
+        // 현재 상황, : boardJPQLQuery 여기 객체에는 무엇이 들어가 있나요?
+        // 박스안에 : 1) 게시글, 댓글 2개테이블 조인 2) 검색 조건 3) 그룹 바이도 4) 페이징 도 포함된 상태이다.
+        // 비유 : boardJPQLQuery <-> DTO로 변환하는 중인데,
+        // 여기에 중간 저장소 만들기 : tupleJPQLQuery
+        // boardJPQLQuery <--->tupleJPQLQuery<---> DTO로 변환하는 중인데,
+                JPQLQuery<Tuple> tupleJPQLQuery = boardJPQLQuery.select(
                 // 게시글, 댓글의 갯수를 조회한 결과,
                 board,reply.countDistinct()
         );
         // 튜플에서, 각 데이터를 꺼내서, 형변환 작업,
         // 꺼내는 형식이 조금 다름. 맵과 비슷
 
+        // boardJPQLQuery <--->tupleJPQLQuery<---> DTO로 변환하는 중인데,
         // tupleList, 튜플의 타입으로 조인된 테이블의 내용이 담겨 있음.
-        List<Tuple> tupleList = tupleJPQLQuery.fetch();
+        // 인덱스 순서, 0  ,  1
+        // Tuple -> board,reply.countDistinct()
+        List<Tuple> tupleList = tupleJPQLQuery.fetch(); //fetch() : 가져오기, 불러오다, 호출하다.
 
         // 형변환 작업, 디비에서 조회 후 바로, DTO로 변환 작업,
         List<BoardListAllDTO> dtoList =
                 tupleList.stream().map(tuple -> {
                     // 디비에서 조회된 내용임.
                     Board board1 = (Board)tuple.get(board);
+                    // 1 인덱스의미, 2번째 컬럼 요소
                     long replyCount = tuple.get(1, Long.class);
                     // DTO로 형변환 하는 코드,
                     BoardListAllDTO dto = BoardListAllDTO.builder()
+                            // 보드 내용
                             .bno(board1.getBno())
                             .title(board1.getTitle())
                             .writer(board1.getWriter())
                             .regDate(board1.getRegDate())
+                            // 댓글 갯수
                             .replyCount(replyCount)
                             .build();
 
@@ -247,7 +269,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
                     // 게시글 1번에, 첨부 이미지가 3장있으면,
                     // 3장을 각각 BoardImageDTO -> 형변환.
                     List<BoardImageDTO> imageDTOS = board1.getImageSet().stream().sorted()
-                            .map(boardImage ->
+                            .map(boardImage -> // 엔티티 클래스 -> DTO 로 변환중.
                                     BoardImageDTO.builder()
                                             .uuid(boardImage.getUuid())
                                             .fileName(boardImage.getFileName())
