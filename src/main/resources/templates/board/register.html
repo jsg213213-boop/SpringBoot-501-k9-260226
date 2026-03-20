@@ -38,6 +38,46 @@
                             </div>
                         </div>
 
+                        <!--                        첨부한 이미지 섬네일 화면 미리보기 영역, -->
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="d-flex uploadResult" style="flex-wrap: wrap">
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--                        첨부할 이미지 모달창 추가,(화면에 출력되어있지만 가려진 상태)-->
+                        <!--    첨부 파일 업로드 하는 폼 , 모달창 필요함. -->
+                        <!--    댓글 작성 모달 창 폼-->
+                        <!-- Modal -->
+                        <div class="modal uploadModal" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>업로드 파일</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="input-group mb-3">
+                                            <!--                        <span class="input-group-text">첨부 파일</span>-->
+                                            <input type="file" name="files"
+                                                   class="form-control" multiple></input>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary closeRegisterBtn" data-bs-dismiss="modal">Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary uploadBtn">업로드하기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--모달창 끝-->
+
+                        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                        <script src="/js/upload.js"></script>
+
                         <div>
                             <button class="btn btn-primary submitBtn" type="submit">등록하기</button>
                             <button class="btn btn-secondary" type="reset">초기화</button>
@@ -59,6 +99,20 @@
         }
         alert(errorMsg)
     }
+
+    // 파일 업로드 작업
+    // 순서1, 첨부 파일 업로드 모달창 띄우기.
+    const uploadModal = new bootstrap.Modal(
+        document.querySelector(".uploadModal")
+    )
+    document.querySelector(".uploadFileBtn").addEventListener("click",
+        function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            uploadModal.show();
+        },false)
+
+
 </script>
 </body>
 </html>
