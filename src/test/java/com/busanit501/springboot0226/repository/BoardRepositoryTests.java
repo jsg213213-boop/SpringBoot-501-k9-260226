@@ -4,6 +4,7 @@ import com.busanit501.springboot0226.domain.Board;
 
 import com.busanit501.springboot0226.domain.BoardImage;
 import com.busanit501.springboot0226.domain.Reply;
+import com.busanit501.springboot0226.dto.BoardListAllDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -253,6 +254,17 @@ public class BoardRepositoryTests {
         Pageable pageable = PageRequest.of(0,10,Sort.by("bno").descending());
         boardRepository.searchWithAll(null,null,pageable);
 
+    }
+
+    @Transactional
+    @Test
+    // 1)댓글 갯수 와 2)첨부 이미지 목록 존재 여부
+    public void testSearchWithAll2() {
+        Pageable pageable = PageRequest.of(0,10,
+                Sort.by("bno").descending());
+        Page<BoardListAllDTO> result =  boardRepository.searchWithAll(null,null,pageable);
+        log.info("result.getTotalElements"+result.getTotalElements());
+        result.getContent().forEach(dto -> log.info("dto :  " + dto));
     }
 
 }
