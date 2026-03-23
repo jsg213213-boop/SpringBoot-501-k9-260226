@@ -58,9 +58,70 @@
                         <button type="button" class="btn btn-danger removeBtn">삭제하기</button>
                     </form>
                 </div>
+            </div> <!--        card 끝나는 부분-->
+        </div> <!--        col 끝나는 부분-->
+    </div> <!--        row 끝나는 부분-->
+
+    <!--    첨부파일 썸네일 출력할 영역-->
+    <!--    글작성 폼에서, 코드 재사용-->
+    <!--    첨부 이미지 출력 해보기. -->
+    <!--                        첨부한 이미지 섬네일 화면 미리보기 영역, -->
+    <div class="row mt-3">
+        <div class="col">
+            <div class="d-flex uploadResult" style="flex-wrap: wrap">
+                <!--                추가 작업, 이제는 게시글에 BoardDTO , 게시글, 댓글 갯수, 첨부 이미지들 다있음.-->
+                <!--                꺼내서, 보여주기. -->
+                <th:block th:each="fileName : ${dto.fileNames}">
+                    <div class="card col-4" th:with="arr = ${fileName.split('_')}">
+                        <div class="card-header d-flex justify-content-center">
+                            [[${arr[1]}]]
+                            <button class="btn-sm btn-danger"
+                                    th:onclick="removeFile([[${arr[0]}]],[[${arr[1]}]],this)">
+                                X
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <img th:src="|/view/s_${fileName}|" th:data-src="${fileName}">
+                        </div>
+                    </div>
+
+                </th:block>
+
             </div>
         </div>
     </div>
+    <!--                        첨부할 이미지 모달창 추가,(화면에 출력되어있지만 가려진 상태)-->
+    <!--    첨부 파일 업로드 하는 폼 , 모달창 필요함. -->
+    <!--    첨부파일 썸네일 출력할 영역-->
+
+
+    <!--    첨부파일 추가를 위한 모달창. 글등록시 사용한 모달창 재사용-->
+    <div class="modal uploadModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>업로드 파일</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <!--                        <span class="input-group-text">첨부 파일</span>-->
+                        <input type="file" name="files"
+                               class="form-control" multiple></input>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary closeRegisterBtn" data-bs-dismiss="modal">Close
+                    </button>
+                    <button type="button" class="btn btn-primary uploadBtn">업로드하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    첨부파일 추가를 위한 모달창. 글등록시 사용한 모달창 재사용-->
+
+
 </div>
 <script layout:fragment="script" th:inline="javascript">
     const errors = [[${errors}]]
