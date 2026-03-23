@@ -163,16 +163,7 @@
     }, false
     )
 
-    // 삭제하기.
-    document.querySelector(".removeBtn").addEventListener("click", function (e){
-            e.preventDefault();
-            e.stopPropagation();
 
-            formObj.action = `/board/remove`
-            formObj.method = "post"
-            formObj.submit()
-        }, false
-    )
 
     // 순서1
     // 화면에서, 엑스박스를 클릭시, 화면에서 제거를 하기.
@@ -324,6 +315,48 @@
                 removeFileToServer({uuid, fileName})
             })
     }
+
+    // 순서6
+    // 삭제 작업, 기존에 삭제 버튼을 클릭시 작업하는 부분이 위에 있음.
+    // 아래로 가지고 와서, 수정.
+    // 삭제하기.
+    document.querySelector(".removeBtn").addEventListener("click", function (e){
+            e.preventDefault();
+            e.stopPropagation();
+            // 추가 작업,
+        // 화면에 보이는 파일들을 form 태그에 추가.
+        appendFileData()
+
+        // 화면에서 안보이도록 처리된 파일들을 form 태그에 추가.
+        appendNotShowData()
+
+            formObj.action = `/board/remove`
+            formObj.method = "post"
+            formObj.submit()
+        }, false
+    )
+
+    // 순서7
+    // 화면에 안보이는 첨부 이미지를 추가하는 작업.
+    // 삭제시, 서버에 전달할 때, 삭제할 파일이름이 필요하므로
+    function appendNotShowData() {
+        if (removeFileList.length == 0) {
+            return
+        }
+        const target = document.querySelector(".uploadHidden")
+        let str = ''
+
+        for (let i = 0; i < removeFileList.length; i++) {
+            // removeFileList, 객체를 요소로 가지는 리스트.
+            // 객체 구조 분해 할당.
+            const {uuid, fileName} = removeFileList[i]
+            str += `
+            <input type="hidden" name="fileNames" value="${uuid}_${fileName}" >
+            `
+        }
+        target.innerHTML += str;
+    }
+
 
 </script>
 </body>
