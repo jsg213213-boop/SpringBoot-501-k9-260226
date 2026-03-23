@@ -6,12 +6,13 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 // 시큐리티에서, 요구하는 조건이 있는데, 너희가 로그인 처리를 하려면,
 // 내가 원하는 규격이 있는데, 거기에 맞춰서 작업 해줘.
 //
@@ -20,6 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     // 주입
     private PasswordEncoder passwordEncoder;
 
+        public CustomUserDetailsService() {
+        this.passwordEncoder = new BCryptPasswordEncoder();
+    }
 
     // 이 메서드는 로그인시, 처리를 담당하는 메서드,
     @Override
