@@ -139,11 +139,12 @@ public class BoardController {
     public void removeFiles(List<String> fileNames) {
         for (String filename : fileNames) {
             Resource resource = new FileSystemResource(uploadPath+ File.separator+filename);
-//            String resourceName = resource.getFilename();
+            String resourceName = resource.getFilename();
 
             // 리턴 타입 Map 전달,
             Map<String,Boolean> resultMap = new HashMap<>();
             boolean deleteCheck = false;
+            log.info("BoardController , removeFiles 1 : resourceName " +resourceName );
             try {
                 // 파일 삭제시, 이미지 파일일 경우, 원본 이미지와 , 썸네일 이미지 2개 있어서
                 // 이미지 파일 인지 여부를 확인 후, 이미지 이면, 썸네일도 같이 제거해야함.
@@ -151,7 +152,7 @@ public class BoardController {
                 // 삭제 여부를 업데이트
                 // 원본 파일을 제거하는 기능. (실제 물리 파일 삭제 )
                 deleteCheck =resource.getFile().delete();
-
+                log.info("BoardController , removeFiles 2 : deleteCheck " +deleteCheck );
                 if (contentType.startsWith("image")) {
                     // 썸네일 파일을 생성해서, 파일 클래스로 삭제를 진행.
                     // uploadPath : C:\\upload\springTest

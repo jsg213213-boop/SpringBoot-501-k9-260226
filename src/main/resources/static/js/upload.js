@@ -19,8 +19,8 @@ async function removeFileToServer (uuid, fileName){
     console.log("upload.js ,removeFileToServer 삭제 작업 확인 ," , uuid)
     console.log("upload.js ,removeFileToServer 삭제 작업 확인 ,", fileName)
 
+    //오타 수정 , delete -> remove
     const response = await axios.delete(
-        //오타 수정 , delete -> remove
         `/remove/${uuid}_${fileName}`
     );
     return response.data
