@@ -108,6 +108,8 @@ public class BoardController {
     public String remove(BoardDTO boardDTO,  RedirectAttributes redirectAttributes) {
         log.info("BoardController 에서, remove 작업중");
 
+        log.info("BoardController 에서, remove 작업중2 boardDTO : " + boardDTO);
+
         Long bno = boardDTO.getBno();
 
         // 실무에서, 삭제시, 먼저 DB 의 내용먼저 삭제 후, 그다음에, 물리파일 삭제 하기.

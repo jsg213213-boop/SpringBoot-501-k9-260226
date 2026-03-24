@@ -153,15 +153,18 @@
     // form 태그를 이용해서, 폼내부에 있는 값을 서버에 전달.
     const formObj = document.querySelector("#f1")
 
-    document.querySelector(".modBtn").addEventListener("click", function (e){
-        e.preventDefault();
-        e.stopPropagation();
-
-        formObj.action = `/board/modify?${link}`
-        formObj.method = "post"
-        formObj.submit()
-    }, false
-    )
+    // 수정하기, 이미지 첨부를 사용하기 전의 수정. 주석처리
+    // 밑에도 수정하기 이벤트처리가 있음. + 이미지 처리를 같이하는 수정.
+    //
+    // document.querySelector(".modBtn").addEventListener("click", function (e){
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //
+    //     formObj.action = `/board/modify?${link}`
+    //     formObj.method = "post"
+    //     formObj.submit()
+    // }, false
+    // )
 
 
 
@@ -181,11 +184,12 @@
         console.log("uuid : " + uuid)
         console.log("fileName : " + fileName)
         console.log("obj : " + obj)
-        console.log("removeFileList : " + removeFileList)
+
 
 
         // 삭제할 명단에 추가하기
         removeFileList.push({uuid, fileName})
+        console.log("removeFileList : " , removeFileList)
         // 화면 상에서 카드 요소를 제거하기.
         const targetDiv = obj.closest(".card")
         targetDiv.remove()
@@ -279,6 +283,7 @@
         // 첨부파일을 히든으로 추가., 정의해야 함.
         appendFileData()
 
+        console.log("callRemoveFiles 호출전")
         // 삭제 대상 파일 삭제하는 함수 정의,
         callRemoveFiles()
 
@@ -310,6 +315,7 @@
     // 순서5
     // callRemoveFiles()
     function callRemoveFiles() {
+        console.log("callRemoveFiles , removeFileList2  : " , removeFileList)
         removeFileList.forEach(
             ({uuid, fileName}) => {
                 removeFileToServer({uuid, fileName})

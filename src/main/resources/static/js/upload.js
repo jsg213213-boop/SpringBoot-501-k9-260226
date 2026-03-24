@@ -15,8 +15,9 @@ async function uploadToServer (formObj){
 
 // 화면 -> 서버, 첨부 이미지 삭제
 async function removeFileToServer (uuid, fileName){
-    console.log(uuid)
-    console.log(fileName)
+    console.log("upload.js ,removeFileToServer 삭제 작업 확인 ,removeFileList 3 : " + removeFileList)
+    console.log("upload.js ,removeFileToServer 삭제 작업 확인 ," , uuid)
+    console.log("upload.js ,removeFileToServer 삭제 작업 확인 ,", fileName)
 
     const response = await axios.delete(
         //오타 수정 , delete -> remove
