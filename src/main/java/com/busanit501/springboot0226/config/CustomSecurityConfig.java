@@ -49,6 +49,19 @@ public class CustomSecurityConfig {
                 formLogin.defaultSuccessUrl("/board/list",true)
         );
 
+        // 순서4,
+        http.authorizeRequests()
+                .requestMatchers("/css/**", "/js/**","/image/**").permitAll()
+                // 리스트는 기본으로 다 들어갈수 있게.
+                .requestMatchers("/", "/board/list", "/login", "/joinUser","/joinForm","/findAll","/images/**").permitAll()
+                // 로그인 후 확인 하기.
+                .requestMatchers("/board/register").hasRole("USER")
+                //
+                .requestMatchers("/admin","/images","/board/modify").hasRole("ADMIN")
+                // 위의 접근 제어 목록 외의 , 다른 어떤 요청이라도 반드시 인증이 되어야 접근이 된다.
+                .anyRequest().authenticated()
+        ;
+
         return http.build();
     }
 
