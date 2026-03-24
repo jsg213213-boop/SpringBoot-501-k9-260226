@@ -31,6 +31,7 @@ public class CustomSecurityConfig {
 
         log.info("CustomSecurityConfig : SecurityFilterChain, 스프링 시작시, 검사를 한다. ");
 
+        // 순서1
         // 폼 방식으로 로그인 하겠다.
         http.formLogin(
                 formLogin ->
@@ -38,6 +39,16 @@ public class CustomSecurityConfig {
                 // 기본 페이지로 설정.
 //                Customizer.withDefaults()
         );
+
+        // 순서2
+        http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
+
+        // 순서3,
+        //로그인 후, 성공시 리다이렉트 될 페이지 지정, 간단한 버전.
+        http.formLogin(formLogin ->
+                formLogin.defaultSuccessUrl("/board/list",true)
+        );
+
         return http.build();
     }
 
