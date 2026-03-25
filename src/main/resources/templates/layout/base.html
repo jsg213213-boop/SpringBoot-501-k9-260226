@@ -56,8 +56,9 @@
                     <li class="nav-item" th:if="${#authentication.principal.username} != null">
                         <a class="nav-link" href="#">[[${#authentication.principal.username}]]님환영합니다.</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <!--    로그인시 로그아웃 표시 해보기-->
+                    <li class="nav-item" th:if="${#authentication.principal.username} != null">
+                        <a class="nav-link" href="/logout">로그아웃</a>
                     </li>
                 </ul>
 <!--                <form class="d-flex">-->
