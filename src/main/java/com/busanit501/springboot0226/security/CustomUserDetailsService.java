@@ -19,23 +19,23 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 // 시큐리티에서, 요구하는 조건이 있는데, 너희가 로그인 처리를 하려면,
 // 내가 원하는 규격이 있는데, 거기에 맞춰서 작업 해줘.
 //
 public class CustomUserDetailsService implements UserDetailsService {
 
     // 주입
-    private PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
     // 추가
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    public CustomUserDetailsService() {
-        this.passwordEncoder = new BCryptPasswordEncoder();
-        // 추가
-        this.memberRepository = memberRepository;
-    };
+//    public CustomUserDetailsService() {
+//        this.passwordEncoder = new BCryptPasswordEncoder();
+//        // 추가
+//        this.memberRepository = memberRepository;
+//    };
 
 
 
