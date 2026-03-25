@@ -92,9 +92,16 @@
 
     // 1번, 서버로부터 전달받은 로그인 유저 객체 및 유저명 확인
     const currentUser = [[${user}]]
-    console.log("currentUser 객체확인 : " + currentUser)
+    console.log("currentUser 객체확인 : " , currentUser)
     const currentUser2 = [[${user.Username}]]
-    console.log("currentUser2 접속 유저명(Username 확인) : " + currentUser2)
+    console.log("currentUser2 접속 유저명(Username 확인) : " , currentUser2)
+
+    // 2번, 타임리프 라이브러리 활용한, 방법,
+    const auth = [[${authentication}]]
+    console.log("auth : " , auth)
+
+    const auth2 = [[${#authentication.principal}]]
+    console.log("auth2 : " , auth2)
 
     const errors = [[${errors}]]
     console.log("서버로부터 받은 유효성 체크 오류 : ", errors)
