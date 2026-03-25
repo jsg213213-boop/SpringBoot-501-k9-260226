@@ -2,6 +2,7 @@
 <html lang="ko" class="h-100"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
 >
 <head>
     <meta charset="utf-8">
@@ -52,8 +53,8 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/board/register}">글쓰기</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                    <li class="nav-item" th:if="${#authentication.principal.username} != null">
+                        <a class="nav-link" href="#">[[${#authentication.principal.username}]]님환영합니다.</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
