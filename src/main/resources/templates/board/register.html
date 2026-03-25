@@ -2,6 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       layout:decorate="~{layout/base}">
 
 <body>
@@ -88,6 +89,10 @@
     <script src="/js/upload.js"></script>
 </div>
 <script layout:fragment="script" th:inline="javascript">
+
+    const currentUser = [[${user}]]
+    console.log("currentUser : " + currentUser)
+
     const errors = [[${errors}]]
     console.log("서버로부터 받은 유효성 체크 오류 : ", errors)
 

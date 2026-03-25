@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,6 +37,7 @@ public class BoardController {
     @Value("${com.busanit501.upload.path}")
     private String uploadPath;
 
+
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
 //        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
@@ -53,8 +56,9 @@ public class BoardController {
 //    @PreAuthorize("hasRole('USER')")
 //    @PreAuthorize("isAuthenticated()")
     @GetMapping("/register")
-    public  void registerGet() {
-
+    public  void registerGet(@AuthenticationPrincipal UserDetails user, Model model) {
+        // user 정보를 화면에 전달하기.
+        model.addAttribute("user", user);
     }
 
     @PostMapping("/register")
