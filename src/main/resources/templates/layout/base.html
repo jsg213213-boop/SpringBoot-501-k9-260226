@@ -53,13 +53,17 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/board/register}">글쓰기</a>
                     </li>
-                    <li class="nav-item" th:if="${#authentication.principal.username} != null">
-                        <a class="nav-link" href="#">[[${#authentication.principal.username}]]님환영합니다.</a>
-                    </li>
-                    <!--    로그인시 로그아웃 표시 해보기-->
-                    <li class="nav-item" th:if="${#authentication.principal.username} != null">
-                        <a class="nav-link" href="/logout">로그아웃</a>
-                    </li>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span sec:authentication="name">사용자명</span>님 환영합니다.
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/logout}">로그아웃</a>
+                        </li>
+                    </th:block>
+
                 </ul>
 <!--                <form class="d-flex">-->
 <!--                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
