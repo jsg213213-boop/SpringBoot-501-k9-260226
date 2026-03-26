@@ -2,6 +2,7 @@ package com.busanit501.springboot0226.config;
 
 import com.busanit501.springboot0226.security.CustomUserDetailsService;
 import com.busanit501.springboot0226.security.handler.Custom403Handler;
+import com.busanit501.springboot0226.security.handler.CustomSocialLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -99,7 +101,11 @@ public class CustomSecurityConfig {
 
         //순서7, 카카오 로그인 API 설정.
         http.oauth2Login(
-                oauthLogin -> oauthLogin.loginPage("/member/login")
+                oauthLogin -> {
+                    oauthLogin.loginPage("/member/login");
+                    // 카카오 로그인 후 , 후처리 적용하기.
+                    oauthLogin.successHandler(authenticationSuccessHandler());
+                }
         );
 
         return http.build();
@@ -141,4 +147,13 @@ public class CustomSecurityConfig {
     public AccessDeniedHandler accessDeniedHandler() {
         return new Custom403Handler();
     }
+
+    // 순서8
+    // 카카오 로그인 후처리 등록하기.
+    // 순서 7에 적용.
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomSocialLoginSuccessHandler(passwordEncoder());
+    }
+
 }
